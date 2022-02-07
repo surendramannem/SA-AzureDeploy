@@ -21,7 +21,7 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: '$(Build.SourcesDirectory)/StorageAccount/azuredeploy.json'
     csmParametersFile: '$(Build.SourcesDirectory)/StorageAccount/azuredeploy.parameters.json'
-    deploymentMode: 'Validation'
+    deploymentMode: 'Incremental'
 - task: PowerShell@2
   inputs:
     targetType: 'inline'
