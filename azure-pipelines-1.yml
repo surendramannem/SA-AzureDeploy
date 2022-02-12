@@ -1,0 +1,38 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'çonnectiontoportal'
+    subscriptionId: '6441b61c-a266-40bf-a7c8-8f0ae889f1d5'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'Azureinfra'
+    location: 'UK South'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Build.SourcesDirectory)/StorageAccount/azuredeploy.json'
+    csmParametersFile: '$(Build.SourcesDirectory)/StorageAccount/azuredeploy.parameters.json'
+    deploymentMode: 'Incremental'
+- task: AzurePowerShell@5
+  inputs:
+    azureSubscription: 'çonnectiontoportal'
+    ScriptType: 'InlineScript'
+    Inline: |
+      $Parameters = @{
+        ResourcegroupName     = "ARMDeploymentTest"
+        Templatefile          = ".\StorageAccount\azuredeploy.json"
+        TemplateParameterfile = ".\StorageAccount\azuredeploy.parameters.json"
+        Mode                  = 'Incremental'
+       }
+      $Result = Get-AzResourceGroupDeploymentWhatIfResult @Parameters
+      $Result
+    azurePowerShellVersion: 'LatestVersion'
