@@ -28,7 +28,7 @@ steps:
     ScriptType: 'InlineScript'
     Inline: |
       $Parameters = @{
-        ResourcegroupName     = "ARMDeploymentTest"
+        ResourcegroupName     = "Azureinfra"
         Templatefile          = ".\StorageAccount\azuredeploy.json"
         TemplateParameterfile = ".\StorageAccount\azuredeploy.parameters.json"
         Mode                  = 'Incremental'
